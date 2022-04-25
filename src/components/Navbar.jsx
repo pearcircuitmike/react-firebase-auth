@@ -8,10 +8,12 @@ import {
 } from '@chakra-ui/react'
 import React from 'react'
 import { FaMoon, FaSun } from 'react-icons/fa'
+import { useAuth } from '../contexts/AuthContext'
 import Navlink from './Navlink'
 
 export function Navbar() {
   const { toggleColorMode } = useColorMode()
+  const { logout } = useAuth()
 
   return (
     <Box
@@ -32,7 +34,7 @@ export function Navbar() {
           onClick={async e => {
             e.preventDefault()
             // handle logout
-            alert('logout user')
+            logout()
           }}
         />
         <IconButton

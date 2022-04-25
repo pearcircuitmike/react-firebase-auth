@@ -3,13 +3,15 @@ import {auth} from '../utils/init-firebase';
 import {
   createUserWithEmailAndPassword ,
   signInWithEmailAndPassword ,
-  onAuthStateChanged
+  onAuthStateChanged ,
+  signOut
 } from 'firebase/auth';
 
 const AuthContext = createContext({
   currentUser: null,
   register: () => Promise,
   login: () => Promise,
+  logout: () => Promise,
 })
 
 export const useAuth = () => useContext(AuthContext)
@@ -34,10 +36,15 @@ export default function AuthContextProvider({children}){
     return signInWithEmailAndPassword(auth, email, password)
   }
 
+  function logout(){
+    return signOut(auth)
+  }
+
   const value = {
     currentUser,
     register,
-    login
+    login,
+    logout
   }
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
