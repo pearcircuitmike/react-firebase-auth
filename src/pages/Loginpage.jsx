@@ -117,7 +117,7 @@ export default function Loginpage() {
           colorScheme='red'
           leftIcon={<FaGoogle />}
           onClick={() => signInWithGoogle()
-            .then(user => console.log(user))
+            .then(user => history.push('/profile'))
             .catch(error => console.log(error))}
         >
           Sign in with Google
