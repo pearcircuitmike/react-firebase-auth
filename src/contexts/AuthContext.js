@@ -6,7 +6,9 @@ import {
   onAuthStateChanged ,
   signOut ,
   GoogleAuthProvider ,
-  signInWithPopup
+  signInWithPopup ,
+  sendPasswordResetEmail,
+  confirmPasswordReset
 } from 'firebase/auth';
 
 const AuthContext = createContext({
@@ -15,6 +17,8 @@ const AuthContext = createContext({
   login: () => Promise,
   logout: () => Promise,
   signInWithGoogle: () => Promise,
+  sendPasswordResetEmail: () => Promise,
+  resetPassword: () => Promise,
 })
 
 export const useAuth = () => useContext(AuthContext)
@@ -45,6 +49,17 @@ export default function AuthContextProvider({children}){
 
   }
 
+  function forgotPassword(email){
+    return sendPasswordResetEmail(auth, email, {
+      url: 'http://localhost:3000/login',
+      // need to update ^^
+    })
+  }
+
+  function resetPassword(oobCode, newPassword){
+    return confirmPasswordReset(auth, oobCode, newPassword)
+  }
+
   function logout(){
     return signOut(auth)
   }
@@ -54,7 +69,9 @@ export default function AuthContextProvider({children}){
     register,
     login,
     logout,
-    signInWithGoogle
+    signInWithGoogle,
+    forgotPassword,
+    resetPassword
   }
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
