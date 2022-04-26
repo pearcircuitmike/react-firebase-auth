@@ -13,7 +13,7 @@ import Navlink from './Navlink'
 
 export function Navbar() {
   const { toggleColorMode } = useColorMode()
-  const { logout } = useAuth()
+  const { currentUser, logout } = useAuth()
 
   return (
     <Box
@@ -24,11 +24,11 @@ export function Navbar() {
       <HStack py={4} justifyContent='flex-end' maxW='container.lg' mx='auto'>
         <Navlink to='/' name='Firbase Authentication' size='lg' />
         <Spacer />
-        <Navlink to='/login' name='Login' />
-        <Navlink to='/register' name='Register' />
-        <Navlink to='/profile' name='Profile' />
-        <Navlink to='/protected-page' name='Protected' />
-        <Navlink
+        {!currentUser && <Navlink to='/login' name='Login' /> }
+        {!currentUser && <Navlink to='/register' name='Register' /> }
+        {currentUser && <Navlink to='/profile' name='Profile' />}
+        {currentUser && <Navlink to='/protected-page' name='Protected' />}
+        {currentUser && <Navlink
           to='/logout'
           name='Logout'
           onClick={async e => {
@@ -36,7 +36,7 @@ export function Navbar() {
             // handle logout
             logout()
           }}
-        />
+        />}
         <IconButton
           variant='outline'
           icon={useColorModeValue(<FaSun />, <FaMoon />)}
