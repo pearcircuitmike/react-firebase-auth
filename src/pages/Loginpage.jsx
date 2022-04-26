@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/react'
 import React, { useEffect, useRef, useState } from 'react'
 import { FaGoogle } from 'react-icons/fa'
-import { Link, useHistory } from 'react-router-dom'
+import { Link, useHistory, useLocation } from 'react-router-dom'
 import { Card } from '../components/Card'
 import DividerWithText from '../components/DividerWithText'
 import { Layout } from '../components/Layout'
@@ -24,6 +24,7 @@ import useMounted from '../hooks/useMounted'
 
 export default function Loginpage() {
   const history = useHistory()
+  const location = useLocation()
 
   const [ email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -56,11 +57,11 @@ export default function Loginpage() {
             setIsSubmitting(true)
             login(email, password)
               .then((response) => {
-                console.log(response)
-                history.push('/profile')
+              //  console.log(response)
+                history.push(location.state?.from ?? '/profile')
               })
               .catch((error) => {
-                console.log(error.message)
+              //  console.log(error.message)
                 toast({
                   description: error.message,
                   status: "error",
